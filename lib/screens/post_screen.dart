@@ -1,6 +1,4 @@
 import 'package:f_home_mo/provider/post_provider.dart';
-import 'package:f_home_mo/provider/user.dart';
-import 'package:f_home_mo/repostitory/post_repository.dart';
 import 'package:f_home_mo/widgets/item_post.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -41,6 +39,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách bài đăng'),
+        automaticallyImplyLeading: false,
       ),
       body: _isLoading
           ? const Center(

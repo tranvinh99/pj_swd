@@ -56,16 +56,23 @@ class FirebaseServices {
 
     debugPrint('responseData in login : $responseData');
     final accessToken = responseData['data']['accessToken'];
+    final uId = responseData['data']['user']['id'];
 
+    debugPrint('uId $uId');
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('accessToken', accessToken);
 
+    await prefs.setString('accessToken', accessToken);
+    await prefs.setString('idUser', uId);
     return accessToken;
   }
 
   signOut() async {
     await _auth.signOut();
     await _googleSignIn.signOut();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('accessToken');
+    await prefs.remove('deviceToken');
+    await prefs.remove('idUser');
     _deviceToken = '';
   }
 

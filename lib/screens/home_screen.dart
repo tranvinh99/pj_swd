@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Danh sách người dùng'),
+        automaticallyImplyLeading: false,
       ),
       body: _isLoading
           ? const Center(

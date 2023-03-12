@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:f_home_mo/utils/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:http/http.dart" as http;
@@ -56,7 +55,7 @@ class UserProvider with ChangeNotifier {
     _list = [];
     const url = 'https://f-homes-be.vercel.app';
     SharedPreferences pref = await SharedPreferences.getInstance();
-    final String? accessToken = token;
+    final String? accessToken = pref.getString("accessToken");
     final response = await http.get(Uri.parse("$url/getAllUsers"), headers: {
       'Content-type': 'application/json',
       'Authorization': 'bearer $accessToken'

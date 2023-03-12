@@ -1,4 +1,4 @@
-import "package:f_home_mo/screens/home_screen.dart";
+import "package:f_home_mo/app.dart";
 import "package:f_home_mo/utils/firebase_service.dart";
 import "package:flutter/material.dart";
 
@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const HomeScreen()));
+                                builder: (context) => const MyApp()));
                       },
                       child: Container(
                         height: 50.0,

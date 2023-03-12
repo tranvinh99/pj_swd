@@ -1,9 +1,10 @@
 import 'package:f_home_mo/provider/user.dart';
 import 'package:f_home_mo/repostitory/user_repository.dart';
 import 'package:f_home_mo/screens/edit_profile_screen.dart';
-import 'package:f_home_mo/utils/variables.dart';
+import 'package:f_home_mo/screens/login_screen.dart';
+import 'package:f_home_mo/utils/firebase_service.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isLoading = false;
   late UserModel userModel;
+
   @override
   void initState() {
     super.initState();
@@ -22,10 +24,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getProfile() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final uId = prefs.getString('idUser');
+    // print('uId $uId');
     setState(() {
       _isLoading = false;
     });
-    userModel = await UserRepository().getUserInfo(idAdmin);
+    userModel = await UserRepository().getUserInfo(uId!);
     setState(() {
       _isLoading = true;
     });
@@ -77,9 +82,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       );
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: [
+                      children: const [
                         Icon(
                           Icons.edit,
                           color: Colors.white,
@@ -102,7 +107,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     top: 20,
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () async {
+                      await FirebaseServices().signOut();
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (ctx) => const LoginScreen()));
+                    },
                     child: const Text(
                       'Đăng xuất',
                       style: TextStyle(
