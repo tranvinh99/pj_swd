@@ -1,6 +1,11 @@
+import 'package:f_home_mo/app.dart';
 import 'package:f_home_mo/firebase_options.dart';
+import 'package:f_home_mo/provider/bottom_navigation_provider.dart';
+import 'package:f_home_mo/provider/post_provider.dart';
 import 'package:f_home_mo/provider/user.dart';
+import 'package:f_home_mo/screens/home_screen.dart';
 import 'package:f_home_mo/screens/login_screen.dart';
+import 'package:f_home_mo/screens/post_screen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import "package:firebase_core/firebase_core.dart";
@@ -19,26 +24,20 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseMessaging.instance.getInitialMessage();
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider.value(value: UserProvider())],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const LoginScreen(),
+  // await FirebaseMessaging.instance.getInitialMessage();
+  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider.value(value: UserProvider()),
+      ChangeNotifierProvider.value(value: PostProvider()),
+      ChangeNotifierProvider.value(value: BottomNavigationProvider())
+    ],
+    child: MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
-    );
-  }
+      home: const MyApp(),
+    ),
+  ));
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:f_home_mo/utils/variables.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import "package:http/http.dart" as http;
@@ -16,6 +17,28 @@ class UserModel {
       required this.imgUrl,
       required this.roleName,
       required this.status});
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      id: map['_id'] as String,
+      fullname: map['fullname'] as String,
+      phone: map['phoneNumber'] as String,
+      imgUrl: map['img'] as String,
+      roleName: map['roleName'] as String,
+      status: map['status'] as bool,
+      email: map['email'] as String,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'id': id,
+      'fullname': fullname,
+      'img': imgUrl,
+      'phoneNumber': phone,
+      'email': email
+    };
+  }
 }
 
 class UserProvider with ChangeNotifier {
@@ -32,7 +55,7 @@ class UserProvider with ChangeNotifier {
   Future<void> getAllUsers() async {
     const url = 'https://f-homes-be.vercel.app';
     SharedPreferences pref = await SharedPreferences.getInstance();
-    final String? accessToken = pref.getString('accessToken');
+    final String? accessToken = token;
     final response = await http.get(Uri.parse("$url/getAllUsers"), headers: {
       'Content-type': 'application/json',
       'Authorization': 'bearer $accessToken'
@@ -42,19 +65,18 @@ class UserProvider with ChangeNotifier {
 
     for (var user in loadedUser) {
       _list.add(UserModel(
-          id: user['_id'],
-          email: user['email'],
-          phone: user['phoneNumber'],
-          fullname: user['fullname'],
-          imgUrl: user['img'],
-          roleName: user['roleName'],
-          status: user['status']));
+        id: user['_id'],
+        email: user['email'],
+        phone: user['phoneNumber'],
+        fullname: user['fullname'],
+        imgUrl: user['img'],
+        roleName: user['roleName'],
+        status: user['status'],
+      ));
     }
     // for (var user in _list) {
     //   print(user);
     // }
     notifyListeners();
   }
-
-  Future<void> 
 }
