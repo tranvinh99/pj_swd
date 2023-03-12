@@ -30,9 +30,10 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> getAllUsers() async {
-    const url = 'https://f-homes-be.vercel.app';
     SharedPreferences pref = await SharedPreferences.getInstance();
     final String? accessToken = pref.getString('accessToken');
+    const url = 'https://f-homes-be.vercel.app';
+
     final response = await http.get(Uri.parse("$url/getAllUsers"), headers: {
       'Content-type': 'application/json',
       'Authorization': 'bearer $accessToken'
@@ -50,11 +51,23 @@ class UserProvider with ChangeNotifier {
           roleName: user['roleName'],
           status: user['status']));
     }
-    // for (var user in _list) {
-    //   print(user);
-    // }
     notifyListeners();
   }
 
-  Future<void> 
+  Future<void> approveUser(String id) async {
+    final url = Uri.parse('https://fhome-be.vercel.app/setUserStatus/$id');
+    await http.put(url);
+  }
+
+  Future<void> deleteUser(String id) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    final String? accessToken = pref.getString('accessToken');
+    final url = Uri.parse('https://fhome-be.vercel.app/users/$id');
+    await http.delete(url, headers: {
+      'Content-type': 'application/json',
+      'Authorization': 'bearer $accessToken'
+    }).then((res) {
+      debugPrint(res.body);
+    });
+  }
 }
