@@ -75,19 +75,37 @@ class _ItemPostState extends State<ItemPost> {
                       ),
                     ),
                   const SizedBox(height: 1),
-                  Text(
+                  Row(
+                    children: [
+                      const Text(
+                        'Status: ',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                      Text(
+                        widget.postModel.status.toString(),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Text(
                     'Tên Room',
                     maxLines: 3,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   const SizedBox(height: 1),
-                  Text(
+                  const Text(
                     'Tên Building',
                     maxLines: 3,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),

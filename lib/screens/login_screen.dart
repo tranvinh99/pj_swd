@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     top: 25.0,
                   ),
                   child: const Text(
-                    "Welcome to event management",
+                    "Welcome to FHome management",
                     style: TextStyle(
                       fontSize: 25.0,
                       fontWeight: FontWeight.w700,

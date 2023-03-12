@@ -26,8 +26,8 @@ Future<void> main() async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   String? accessToken = pref.getString("accessToken");
   // print(accessToken);
-  // await FirebaseMessaging.instance.getInitialMessage();
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FirebaseMessaging.instance.getInitialMessage();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: UserProvider()),

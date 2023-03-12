@@ -1,6 +1,5 @@
 import 'package:f_home_mo/models/post.dart';
 import 'package:f_home_mo/provider/user.dart';
-import 'package:f_home_mo/widgets/item_post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -97,34 +96,36 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ],
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
+          if (widget.postModel.status == false)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(Colors.red),
+                  ),
+                  child: Row(
+                    children: const [
+                      Icon(Icons.close),
+                      SizedBox(width: 10),
+                      Text('Từ chối'),
+                    ],
+                  ),
                 ),
-                child: Row(
-                  children: const [
-                    Icon(Icons.close),
-                    SizedBox(width: 10),
-                    Text('Từ chối'),
-                  ],
+                ElevatedButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: const [
+                      Icon(Icons.check),
+                      SizedBox(width: 10),
+                      Text('Chấp thuận'),
+                    ],
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () {},
-                child: Row(
-                  children: const [
-                    Icon(Icons.check),
-                    SizedBox(width: 10),
-                    Text('Chấp thuận'),
-                  ],
-                ),
-              ),
-            ],
-          )
+              ],
+            )
         ],
       ),
     );
