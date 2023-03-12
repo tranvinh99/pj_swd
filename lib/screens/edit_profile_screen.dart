@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:f_home_mo/provider/user.dart';
 import 'package:f_home_mo/repostitory/user_repository.dart';
 import 'package:f_home_mo/utils/storage_methods.dart';
+import 'package:f_home_mo/utils/utils.dart';
 import 'package:f_home_mo/widgets/text_field_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -62,6 +63,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   void initState() {
     super.initState();
+    imageUrl = widget.userModel.imgUrl;
+
     fullnameController.text = widget.userModel.fullname;
     emailController.text = widget.userModel.email;
     phoneController.text = widget.userModel.phone;
@@ -92,6 +95,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     });
 
     await UserRepository().updateUser(user);
+    showSnackBar(context, 'Cập nhật profile thành công');
+
     setState(() {
       isLoading = false;
     });
@@ -121,7 +126,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     CircleAvatar(
                       radius: 40,
-                      backgroundImage: NetworkImage(widget.userModel.imgUrl),
+                      backgroundImage: NetworkImage(imageUrl!),
                     ),
                     const Positioned(
                       bottom: 0,

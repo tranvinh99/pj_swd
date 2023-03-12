@@ -1,13 +1,11 @@
 import 'package:f_home_mo/provider/user.dart';
 import 'package:f_home_mo/repostitory/user_repository.dart';
+import 'package:f_home_mo/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class ItemUser extends StatelessWidget {
   final UserModel userModel;
-  const ItemUser({
-    super.key,
-    required this.userModel,
-  });
+  const ItemUser({super.key, required this.userModel});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,8 @@ class ItemUser extends StatelessWidget {
               itemBuilder: (context) => [
                 PopupMenuItem(
                   onTap: () async {
-                    UserRepository().updateStatus(userModel);
+                    await UserRepository().updateStatus(userModel);
+                    showSnackBar(context, 'Đổi status thành công');
                   },
                   child: const Text('Change Status'),
                 ),

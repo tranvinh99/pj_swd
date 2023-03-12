@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  another_flushbar: ^1.12.29
   cupertino_icons: ^1.0.2
   data_table_2: ^2.3.12
   firebase_auth: ^4.2.10

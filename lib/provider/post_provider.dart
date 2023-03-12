@@ -6,6 +6,7 @@ class PostProvider extends ChangeNotifier {
   List<PostModel> _posts = [];
 
   Future<void> getAllPosts() async {
+    _posts = [];
     List<PostModel> posts = await PostRepository().getAllPosts();
     _posts = posts;
     notifyListeners();

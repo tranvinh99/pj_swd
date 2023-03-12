@@ -42,7 +42,7 @@ class UserModel {
 }
 
 class UserProvider with ChangeNotifier {
-  final List<UserModel> _list = [];
+  List<UserModel> _list = [];
 
   List<UserModel> get list {
     return [..._list];
@@ -53,6 +53,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<void> getAllUsers() async {
+    _list = [];
     const url = 'https://f-homes-be.vercel.app';
     SharedPreferences pref = await SharedPreferences.getInstance();
     final String? accessToken = token;

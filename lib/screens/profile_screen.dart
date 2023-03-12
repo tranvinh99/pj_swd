@@ -17,7 +17,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late UserModel userModel;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getProfile();
   }
