@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -54,7 +53,7 @@ class FirebaseServices {
         await http.post(Uri.parse(url), body: body, headers: headers);
     final responseData = json.decode(response.body) as Map<String, dynamic>;
 
-    debugPrint('responseData in login : $responseData');
+    // debugPrint('responseData in login : $responseData');
     final accessToken = responseData['data']['accessToken'];
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -71,9 +70,10 @@ class FirebaseServices {
 
   Future<void> getDeviceToken() async {
     final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-
-    await firebaseMessaging.getToken().then((token) {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await firebaseMessaging.getToken().then((token) async {
       _deviceToken = token!;
+      prefs.setString("deviceToken", _deviceToken);
     });
     // print('Device token : $_deviceToken');
   }

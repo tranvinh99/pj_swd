@@ -51,12 +51,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       Text(userData.list[i].fullname),
                       Text(userData.list[i].status.toString()),
                       OutlinedButton(
-                          onPressed: () async {},
+                          onPressed: () async {
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            await userData.approveUser(userData.list[i].id);
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          },
                           child: const Text('Change Status'))
                     ],
                   ),
                 );
-              }),
+              },
+            ),
     );
   }
 }
