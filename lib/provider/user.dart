@@ -56,5 +56,5 @@ class UserProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> 
+  // Future<void>
 }
