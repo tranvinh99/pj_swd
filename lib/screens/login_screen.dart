@@ -2,8 +2,14 @@ import "package:f_home_mo/screens/home_screen.dart";
 import "package:f_home_mo/utils/firebase_service.dart";
 import "package:flutter/material.dart";
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +38,6 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30.0),
-                SizedBox(
-                  height: 200,
-                  child: Image.asset("./assets/images/logo.png"),
-                ),
                 const SizedBox(height: 30.0),
                 SizedBox(
                     height: 50.0,
@@ -45,7 +47,7 @@ class LoginScreen extends StatelessWidget {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => HomeScreen()));
+                                builder: (context) => const HomeScreen()));
                       },
                       child: Container(
                         height: 50.0,
