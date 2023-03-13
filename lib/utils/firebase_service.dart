@@ -11,7 +11,7 @@ class FirebaseServices {
   final _googleSignIn = GoogleSignIn();
   var _deviceToken = '';
 
-  signInWithGoogle() async {
+  Future<void> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -31,7 +31,7 @@ class FirebaseServices {
         if (firebaseUser != null) {
           String token = await firebaseUser.getIdToken();
           // debugPrint('Get token from firebase: $token');
-          await sendTokenApi(token);
+          // await sendTokenApi(token);
           String accessToken = await sendTokenApi(token);
           AccessTokenMiddleware.setAccessToken(accessToken);
         }
@@ -53,13 +53,17 @@ class FirebaseServices {
     final response =
         await http.post(Uri.parse(url), body: body, headers: headers);
     final responseData = json.decode(response.body) as Map<String, dynamic>;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    if (response.statusCode >= 400) {
+      await signOut();
+    }
     debugPrint('responseData in login : $responseData');
+    // final userData = responseData['data']['user'];
     final accessToken = responseData['data']['accessToken'];
     final uId = responseData['data']['user']['id'];
 
     debugPrint('uId $uId');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setString('accessToken', accessToken);
     await prefs.setString('idUser', uId);

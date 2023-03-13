@@ -15,7 +15,7 @@ class UserRepository {
         'Content-type': 'application/json',
         'Authorization': 'Bearer $accessToken'
       });
-      print(response.body);
+      // print(response.body);
       jsonResponse = json.decode(response.body);
     } catch (e) {
       print(e.toString());
@@ -26,7 +26,7 @@ class UserRepository {
 
   Future<void> updateUser(UserModel userModel) async {
     var jsonResponse;
-    print(userModel.status.runtimeType);
+    // print(userModel.status.runtimeType);
     try {
       const url = 'https://f-homes-be.vercel.app';
       SharedPreferences pref = await SharedPreferences.getInstance();

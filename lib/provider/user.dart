@@ -60,7 +60,7 @@ class UserProvider with ChangeNotifier {
       'Content-type': 'application/json',
       'Authorization': 'bearer $accessToken'
     });
-    debugPrint('getAlluser successful');
+    // debugPrint('getAlluser successful');
     final loadedUser = jsonDecode(response.body) as List<dynamic>;
 
     for (var user in loadedUser) {

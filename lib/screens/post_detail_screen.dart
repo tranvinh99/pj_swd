@@ -96,36 +96,35 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
               ],
             ),
           ),
-          if (widget.postModel.status == false)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.red),
-                  ),
-                  child: Row(
-                    children: const [
-                      Icon(Icons.close),
-                      SizedBox(width: 10),
-                      Text('Từ chối'),
-                    ],
-                  ),
+          // if (widget.postModel.status == false)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
                 ),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Row(
-                    children: const [
-                      Icon(Icons.check),
-                      SizedBox(width: 10),
-                      Text('Chấp thuận'),
-                    ],
-                  ),
+                child: Row(
+                  children: const [
+                    Icon(Icons.close),
+                    SizedBox(width: 10),
+                    Text('Từ chối'),
+                  ],
                 ),
-              ],
-            )
+              ),
+              ElevatedButton(
+                onPressed: () {},
+                child: Row(
+                  children: const [
+                    Icon(Icons.check),
+                    SizedBox(width: 10),
+                    Text('Chấp thuận'),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
