@@ -12,6 +12,7 @@ class PostModel {
   final String? createdAt;
   final String? updatedAt;
   final String? img;
+  final String? invoiceId;
 
   PostModel({
     this.id,
@@ -22,6 +23,7 @@ class PostModel {
     this.rooms,
     this.userPosting,
     this.createdAt,
+    this.invoiceId,
     this.img,
     this.updatedAt,
   });
@@ -38,22 +40,23 @@ class PostModel {
       'createdAt': createdAt,
       'updatedAt': updatedAt,
       'img': img,
+      'invoiceId': invoiceId
     };
   }
 
   factory PostModel.fromMap(Map<String, dynamic> map) {
     return PostModel(
-      id: map['_id'] ?? 'unknowned',
-      title: map['title'] ?? 'unknowned',
-      description: map['description'] ?? 'unknowned',
-      status: map['status'] ?? 'unknowned',
-      buildings: map['buildings'] ?? 'unknowned',
-      rooms: map['rooms'] ?? 'unknowned',
-      userPosting: map['userPosting'] ?? 'unknowned',
-      createdAt: map['createdAt'] ?? 'unknowned',
-      updatedAt: map['updatedAt'] ?? 'unknowned',
-      img: map['img'],
-    );
+        id: map['_id'] ?? 'unknowned',
+        title: map['title'] ?? 'unknowned',
+        description: map['description'] ?? 'unknowned',
+        status: map['status'] ?? 'unknowned',
+        buildings: map['buildings'] ?? 'unknowned',
+        rooms: map['rooms'] ?? 'unknowned',
+        userPosting: map['userPosting'] ?? 'unknowned',
+        createdAt: map['createdAt'] ?? 'unknowned',
+        updatedAt: map['updatedAt'] ?? 'unknowned',
+        img: map['img'] ?? 'unknowned',
+        invoiceId: map['invoiceId'] ?? 'unknowned');
   }
 
   String toJson() => json.encode(toMap());
