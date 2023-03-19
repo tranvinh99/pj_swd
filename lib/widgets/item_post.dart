@@ -1,6 +1,5 @@
 import 'package:f_home_mo/models/post.dart';
 import 'package:f_home_mo/provider/user.dart';
-import 'package:f_home_mo/repostitory/user_repository.dart';
 import 'package:f_home_mo/screens/post_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
