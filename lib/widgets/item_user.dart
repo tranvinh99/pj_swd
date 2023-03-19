@@ -50,6 +50,24 @@ class ItemUser extends StatelessWidget {
                     ),
                   ],
                 ),
+                Row(
+                  children: [
+                    const Text(
+                      'Role: ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    Text(
+                      userModel.roleName.toString(),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),

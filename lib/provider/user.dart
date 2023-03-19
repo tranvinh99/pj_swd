@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,16 +54,13 @@ class UserProvider with ChangeNotifier {
 
   Future<void> getAllUsers() async {
     _list = [];
-    const url = 'https://f-homes-be.vercel.app';
+    const url = 'https://fhome-be.vercel.app';
     SharedPreferences pref = await SharedPreferences.getInstance();
     final String? accessToken = pref.getString("accessToken");
-    final response = await http.get(Uri.parse("$url/getAllUsers"), headers: {
-      'Content-type': 'application/json',
-      'Authorization': 'bearer $accessToken'
-    });
+    final response = await http.get(Uri.parse("$url/getAllUsers"));
     // debugPrint('getAlluser successful');
     final loadedUser = jsonDecode(response.body) as List<dynamic>;
-
+    log('length:${loadedUser.length}');
     for (var user in loadedUser) {
       _list.add(UserModel(
         id: user['_id'],

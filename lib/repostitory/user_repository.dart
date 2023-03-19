@@ -8,7 +8,7 @@ class UserRepository {
   Future<UserModel> getUserInfo(String id) async {
     var jsonResponse;
     try {
-      const url = 'https://f-homes-be.vercel.app';
+      const url = 'https://fhome-be.vercel.app';
       SharedPreferences pref = await SharedPreferences.getInstance();
       final String? accessToken = pref.getString("accessToken");
       final response = await http.get(Uri.parse("$url/users/$id"), headers: {

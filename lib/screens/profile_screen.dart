@@ -3,7 +3,9 @@ import 'package:f_home_mo/repostitory/user_repository.dart';
 import 'package:f_home_mo/screens/edit_profile_screen.dart';
 import 'package:f_home_mo/screens/login_screen.dart';
 import 'package:f_home_mo/utils/firebase_service.dart';
+import 'package:f_home_mo/utils/variables.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -24,16 +26,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getProfile() async {
+    List<UserModel> users = context.read<UserProvider>().list;
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final uId = prefs.getString('idUser');
+    String? uId = prefs.getString('idUser');
+    uId = idAdmin;
     // print('uId $uId');
     setState(() {
       _isLoading = false;
     });
-    userModel = await UserRepository().getUserInfo(uId!);
-    setState(() {
-      _isLoading = true;
-    });
+    // userModel = await UserRepository().getUserInfo(uId!);
+    for (var user in users) {
+      if (user.id == idAdmin) {
+        userModel = user;
+        setState(() {
+          _isLoading = true;
+        });
+      }
+    }
   }
 
   @override

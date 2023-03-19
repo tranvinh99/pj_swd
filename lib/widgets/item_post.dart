@@ -3,6 +3,8 @@ import 'package:f_home_mo/provider/user.dart';
 import 'package:f_home_mo/repostitory/user_repository.dart';
 import 'package:f_home_mo/screens/post_detail_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ItemPost extends StatefulWidget {
   final PostModel postModel;
@@ -27,12 +29,14 @@ class _ItemPostState extends State<ItemPost> {
   }
 
   getUserData() async {
-    userModel =
-        await UserRepository().getUserInfo(widget.postModel.userPosting);
-    if (mounted) {
-      setState(() {
-        _isLoading = true;
-      });
+    List<UserModel> users = context.read<UserProvider>().list;
+    for (var user in users) {
+      if (user.id == widget.postModel.userPosting) {
+        userModel = user;
+        setState(() {
+          _isLoading = true;
+        });
+      }
     }
   }
 
@@ -50,7 +54,7 @@ class _ItemPostState extends State<ItemPost> {
         );
       },
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 10.0),
+        padding: const EdgeInsets.only(top: 10.0, left: 15, right: 15),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -112,14 +116,35 @@ class _ItemPostState extends State<ItemPost> {
                   ),
                   const SizedBox(height: 1),
                   Text(
-                    widget.postModel.description,
+                    widget.postModel.title!,
                     maxLines: 3,
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),
                   ),
+                  const SizedBox(height: 1),
+                  if (widget.postModel.img != null)
+                    Text(
+                      widget.postModel.img!,
+                      maxLines: 3,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
                 ],
+              ),
+            ),
+            Text(
+              DateFormat("dd-MM-yyyy")
+                  .format(DateTime.parse(
+                    widget.postModel.createdAt!,
+                  ))
+                  .toString(),
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w400,
               ),
             ),
           ],

@@ -15,6 +15,30 @@ class _HomeScreenState extends State<HomeScreen> {
   var _isLoading = false;
   List<UserModel> users = [];
 
+  List<String> tabs = [
+    "Admin",
+    "Lanlord",
+    "Fptmember",
+  ];
+  int current = 0;
+
+  double changePositionedOfLine() {
+    switch (current) {
+      case 0:
+        return 20;
+      case 1:
+        return 85;
+      case 2:
+        return 165;
+      default:
+        return 0;
+    }
+  }
+
+  double changeContainerWidth() {
+    return 10;
+  }
+
   filterStatus(int value) {
     List<UserModel> tmp = context.read<UserProvider>().list;
     List<UserModel> filtered = [];
@@ -61,26 +85,85 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('Danh sách người dùng'),
         automaticallyImplyLeading: false,
       ),
-      body: _isLoading
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : SingleChildScrollView(
-              child: SizedBox(
+      body: SingleChildScrollView(
+        child: SizedBox(
+          height: size.height,
+          width: size.width,
+          child: Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(top: 15),
                 width: size.width,
-                height: size.height,
-                child: Column(
+                height: size.height * 0.05,
+                child: Stack(
                   children: [
-                    const Text(
-                      'Status',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      child: SizedBox(
+                        width: size.width,
+                        height: size.height * 0.04,
+                        child: ListView.builder(
+                            physics: const BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemCount: tabs.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                    left: index == 0 ? 10 : 23, top: 10),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      current = index;
+                                    });
+                                  },
+                                  child: Text(
+                                    tabs[index],
+                                    style: TextStyle(
+                                      fontSize: current == index ? 16 : 14,
+                                      fontWeight: current == index
+                                          ? FontWeight.w400
+                                          : FontWeight.w300,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
                       ),
                     ),
-                    Row(
+                    AnimatedPositioned(
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      bottom: 0,
+                      left: changePositionedOfLine(),
+                      duration: const Duration(milliseconds: 500),
+                      child: AnimatedContainer(
+                        margin: const EdgeInsets.only(left: 10),
+                        width: changeContainerWidth(),
+                        height: size.height * 0.008,
+                        decoration: BoxDecoration(
+                          color: Colors.deepPurpleAccent,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        duration: const Duration(milliseconds: 1000),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              _isLoading == true
+                  ? const Center(child: CircularProgressIndicator())
+                  : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        const Text(
+                          'Status',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 15,
+                          ),
+                        ),
                         Radio(
                           value: 2,
                           groupValue: _groupValue,
@@ -134,23 +217,41 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                    Expanded(
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.all(8),
-                        itemCount: users.length,
-                        itemBuilder: (context, i) {
-                          UserModel user = users[i];
-                          return ItemUser(
-                            userModel: user,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+              renderUserByRole(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget renderUserByRole() {
+    List<UserModel> tmp = [];
+
+    switch (current) {
+      case 0:
+        tmp = [...users.where((user) => user.roleName == 'admin')];
+        break;
+      case 1:
+        tmp = [...users.where((user) => user.roleName == 'landlord')];
+        break;
+      case 2:
+        tmp = [...users.where((user) => user.roleName == 'fptmember')];
+        break;
+      default:
+    }
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        padding: const EdgeInsets.all(8),
+        itemCount: tmp.length,
+        itemBuilder: (context, i) {
+          UserModel user = tmp[i];
+          return ItemUser(
+            userModel: user,
+          );
+        },
+      ),
     );
   }
 }
