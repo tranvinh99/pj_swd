@@ -121,8 +121,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           backgroundColor:
                               MaterialStateProperty.all<Color>(Colors.red),
                         ),
-                        child: const Row(
-                          children: [
+                        child: Row(
+                          children: const [
                             Icon(Icons.close),
                             SizedBox(width: 10),
                             Text('Từ chối'),
@@ -140,8 +140,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                           showSnackBar(
                               context, 'Chấp nhận bài viết thành công');
                         },
-                        child: const Row(
-                          children: [
+                        child: Row(
+                          children: const [
                             Icon(Icons.check),
                             SizedBox(width: 10),
                             Text('Chấp thuận'),

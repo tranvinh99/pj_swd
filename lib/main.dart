@@ -4,7 +4,6 @@ import 'package:f_home_mo/provider/bottom_navigation_provider.dart';
 import 'package:f_home_mo/provider/post_provider.dart';
 import 'package:f_home_mo/provider/user.dart';
 import 'package:f_home_mo/screens/login_screen.dart';
-import 'package:f_home_mo/utils/variables.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import "package:firebase_core/firebase_core.dart";
@@ -26,7 +25,7 @@ Future<void> main() async {
   );
   SharedPreferences pref = await SharedPreferences.getInstance();
   String? accessToken = pref.getString("accessToken");
-  accessToken = token;
+  // accessToken = token;
   // print(accessToken);
   await FirebaseMessaging.instance.getInitialMessage();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

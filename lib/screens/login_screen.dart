@@ -43,31 +43,21 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 50.0,
                     child: InkWell(
                       onTap: () async {
-                        await FirebaseServices().signInWithGoogle().then((_) {
+                        final String result =
+                            await FirebaseServices().signInWithGoogle();
+                        if (result == 'success') {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const MyApp()));
-                        }).catchError((err) => {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: const Text('Some error happened'),
-                                    content:
-                                        const Text('You dont have permission'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: const Text('Ok'),
-                                      )
-                                    ],
-                                  );
-                                },
-                              )
-                            });
+                        } else {
+                          showDialog(
+                              context: context,
+                              builder: (context) => const AlertDialog(
+                                    title: Text('Access denied'),
+                                    content: Text('You dont have permission'),
+                                  ));
+                        }
                       },
                       child: Container(
                         height: 50.0,

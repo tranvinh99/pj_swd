@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -11,7 +10,7 @@ class FirebaseServices {
   final _googleSignIn = GoogleSignIn();
   var _deviceToken = '';
 
-  Future<void> signInWithGoogle() async {
+  Future<String> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await _googleSignIn.signIn();
@@ -33,17 +32,24 @@ class FirebaseServices {
           // debugPrint('Get token from firebase: $token');
           // await sendTokenApi(token);
           String accessToken = await sendTokenApi(token);
-          AccessTokenMiddleware.setAccessToken(accessToken);
+
+          if (accessToken != '') {
+            AccessTokenMiddleware.setAccessToken(accessToken);
+            return 'success';
+          }
+
+          return 'fail';
         }
       }
+      return '';
     } on FirebaseAuthException {
       // print(e.message);
-      rethrow;
+      return '';
     }
   }
 
   Future<String> sendTokenApi(String token) async {
-    const url = 'https://f-homes-be.vercel.app/login';
+    const url = 'https://fhome-be.vercel.app/login';
     final headers = {
       'Content-Type': 'application/json',
     };
@@ -58,12 +64,17 @@ class FirebaseServices {
     if (response.statusCode >= 400) {
       await signOut();
     }
-    debugPrint('responseData in login : $responseData');
+    // debugPrint('responseData in login : $responseData');
     // final userData = responseData['data']['user'];
     final accessToken = responseData['data']['accessToken'];
     final uId = responseData['data']['user']['id'];
-
-    debugPrint('uId $uId');
+    final role = responseData['data']['user']['roleName'];
+    // print(role);
+    if (role != 'admin') {
+      await signOut();
+      return '';
+    }
+    // debugPrint('uId $uId');
 
     await prefs.setString('accessToken', accessToken);
     await prefs.setString('idUser', uId);
