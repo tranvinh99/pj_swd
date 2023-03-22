@@ -52,7 +52,7 @@ class PostModel {
       userPosting: map['userPosting']['_id'] ?? 'unknowned',
       createdAt: map['createdAt'] ?? 'unknowned',
       updatedAt: map['updatedAt'] ?? 'unknowned',
-      img: map['img'],
+      img: map['img'] ?? 'unknowned',
     );
   }
 
